@@ -1,4 +1,5 @@
 using DattingAppUpdate.Data;
+using DattingAppUpdate.Entites;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +22,7 @@ namespace DattingAppUpdate
             // Add services to the container.
             builder.Services.AddDbContext<UserDbCxt>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            builder.Services.AddIdentity<User, IdentityRole<int>>()
                             .AddEntityFrameworkStores<UserDbCxt>()
                             .AddDefaultTokenProviders();
 
