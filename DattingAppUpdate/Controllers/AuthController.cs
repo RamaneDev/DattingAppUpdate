@@ -1,5 +1,4 @@
 ﻿using DattingAppUpdate.Helpers;
-using DattingAppUpdate.UserIdentity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 using DattingAppUpdate.Entites;
+using DattingAppUpdate.Dtos;
 
 namespace DattingAppUpdate.Controllers
 {
@@ -35,7 +35,7 @@ namespace DattingAppUpdate.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] UserToLoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
 
@@ -68,7 +68,7 @@ namespace DattingAppUpdate.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] UserToRegisterDto model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
@@ -76,7 +76,7 @@ namespace DattingAppUpdate.Controllers
 
             User user = new()
             {
-                Email = model.Email,
+                Email = model.Username + "@gmail.com",
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username
             };
@@ -89,7 +89,7 @@ namespace DattingAppUpdate.Controllers
 
         [HttpPost]
         [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
+        public async Task<IActionResult> RegisterAdmin([FromBody] UserToRegisterDto model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
@@ -97,7 +97,7 @@ namespace DattingAppUpdate.Controllers
 
             User user = new()
             {
-                Email = model.Email,
+                Email = model.Username + "@gmail.com",
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username
             };

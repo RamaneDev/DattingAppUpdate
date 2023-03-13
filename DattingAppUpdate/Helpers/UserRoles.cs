@@ -1,4 +1,4 @@
-﻿namespace DattingAppUpdate.UserIdentity
+﻿namespace DattingAppUpdate.Helpers
 {
     public static class UserRoles
     {
