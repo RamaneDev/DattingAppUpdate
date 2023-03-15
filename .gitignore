@@ -2,3 +2,5 @@ DattingAppUpdate/bin/
 DattingAppUpdate/obj/
 .vs/
 /DattingAppUpdate/*.db
+/DattingAppUpdate/Users.db-wal
+/DattingAppUpdate/Users.db-shm
