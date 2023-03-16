@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DattingAppUpdate
@@ -29,6 +30,7 @@ namespace DattingAppUpdate
                             .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IDatingRepository, DatingRepository>();
+            builder.Services.AddAutoMapper(typeof(DatingRepository).Assembly);
 
             // Adding Authentication
             builder.Services.AddAuthentication(options =>
@@ -54,7 +56,13 @@ namespace DattingAppUpdate
                 };
             });
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson(
+                opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            //AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;                
+            //});
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -1,4 +1,6 @@
-﻿using DattingAppUpdate.Entites;
+﻿using AutoMapper;
+using DattingAppUpdate.Dtos;
+using DattingAppUpdate.Entites;
 using DattingAppUpdate.IRepo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,25 +15,32 @@ namespace DattingAppUpdate.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IDatingRepository _repo;
-        public UsersController(IDatingRepository repo)
+        private readonly IMapper _mapper;
+
+        public UsersController(IDatingRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<User>>> GetUsers()
+        public async Task<ActionResult<IReadOnlyList<LightUserToReturn>>> GetUsers()
         {
             var users = await _repo.GetUsers();
 
-            return Ok(users);
+            var usersToReturn = _mapper.Map<IReadOnlyList<LightUserToReturn>>(users);
+
+            return Ok(usersToReturn);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<ActionResult<UserToReturn>> GetUser(int id)
         {
             var user = await _repo.GetUser(id);
 
-            return Ok(user);
+            var userToReturn = _mapper.Map<UserToReturn>(user);
+
+            return Ok(userToReturn);
         }
 
     }
