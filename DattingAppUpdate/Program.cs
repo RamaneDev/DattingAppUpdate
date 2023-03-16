@@ -1,5 +1,6 @@
 using DattingAppUpdate.Data;
 using DattingAppUpdate.Entites;
+using DattingAppUpdate.IRepo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,8 @@ namespace DattingAppUpdate
             builder.Services.AddIdentity<User, IdentityRole<int>>()
                             .AddEntityFrameworkStores<UserDbCxt>()
                             .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IDatingRepository, DatingRepository>();
 
             // Adding Authentication
             builder.Services.AddAuthentication(options =>

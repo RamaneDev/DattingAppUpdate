@@ -8,7 +8,7 @@ namespace DattingAppUpdate.Dtos
         public string Username { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8 caracteres")]
+        [StringLength(15, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 15 caracteres")]
         public string Password { get; set; }
     }
 }
