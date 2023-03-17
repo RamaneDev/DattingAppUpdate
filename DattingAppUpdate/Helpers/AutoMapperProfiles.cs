@@ -26,6 +26,10 @@ namespace DattingAppUpdate.Helpers
             CreateMap<Photo, PhotoToReturn>();
 
             CreateMap<UserToUpdateDto, User>();
+
+            CreateMap<PhotoForCreationDto, Photo>();
+            
+            CreateMap<Photo, PhotoToReturnDto>();
         }
 
     }
