@@ -3,6 +3,7 @@ using DattingAppUpdate.Dtos;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.Extensions;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 
 namespace DattingAppUpdate.Helpers
 {
@@ -23,6 +24,8 @@ namespace DattingAppUpdate.Helpers
                  opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
 
             CreateMap<Photo, PhotoToReturn>();
+
+            CreateMap<UserToUpdateDto, User>();
         }
 
     }
