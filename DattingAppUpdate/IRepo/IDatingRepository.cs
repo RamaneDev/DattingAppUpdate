@@ -11,5 +11,6 @@ namespace DattingAppUpdate.IRepo
         Task<bool> SaveAll();
         Task<IReadOnlyList<User>> GetUsers();
         Task<User> GetUser(int id);
+        Task<Photo> GetPhoto(int id);
     }
 }
