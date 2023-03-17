@@ -4,3 +4,4 @@ DattingAppUpdate/obj/
 /DattingAppUpdate/*.db
 /DattingAppUpdate/Users.db-wal
 /DattingAppUpdate/Users.db-shm
+/DattingAppUpdate/cloudinrayOption.json

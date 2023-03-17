@@ -1,5 +1,6 @@
 using DattingAppUpdate.Data;
 using DattingAppUpdate.Entites;
+using DattingAppUpdate.Helpers;
 using DattingAppUpdate.IRepo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -20,8 +23,9 @@ namespace DattingAppUpdate
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);          
 
+            builder.Configuration.AddJsonFile("cloudinaryOption.json");   
 
             // Add services to the container.
             builder.Services.AddDbContext<UserDbCxt>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -60,10 +64,11 @@ namespace DattingAppUpdate
             builder.Services.AddControllers().AddNewtonsoftJson(
                 opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-            //AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;                
-            //});
+
+            // configure cloudinaryApi
+            builder.Services.Configure<CloudinaryOptions>(builder.Configuration.GetSection("CloudinaryOptions"));
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(option =>
