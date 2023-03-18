@@ -5,3 +5,6 @@ DattingAppUpdate/obj/
 /DattingAppUpdate/Users.db-wal
 /DattingAppUpdate/Users.db-shm
 /DattingAppUpdate/cloudinrayOption.json
+/DatingClient/.vscode/extensions.json
+/DatingClient/.vscode/launch.json
+/DatingClient/.vscode/tasks.json
