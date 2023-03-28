@@ -23,9 +23,7 @@ namespace DattingAppUpdate
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);          
-
-            builder.Configuration.AddJsonFile("cloudinaryOption.json");   
+            var builder = WebApplication.CreateBuilder(args);         
 
             // Add services to the container.
             builder.Services.AddDbContext<UserDbCxt>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -65,6 +63,9 @@ namespace DattingAppUpdate
                 opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+            // loading cloudinaryOption from cloudinaryOption.json file
+            builder.Configuration.AddJsonFile("cloudinaryOption.json");
+
             // configure cloudinaryApi
             builder.Services.Configure<CloudinaryOptions>(builder.Configuration.GetSection("CloudinaryOptions"));
 
@@ -99,6 +100,8 @@ namespace DattingAppUpdate
                 });
             });
 
+            builder.Services.AddCors();
+
             var app = builder.Build();
 
             // seeding data
@@ -108,6 +111,8 @@ namespace DattingAppUpdate
 
                 await DataSeeder.Initialize(services);
             }
+
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace DattingAppUpdate.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IDatingRepository _repo;
