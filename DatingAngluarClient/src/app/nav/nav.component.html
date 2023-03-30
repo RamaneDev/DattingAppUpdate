@@ -3,18 +3,49 @@
         <div class="navItems">
             <div class="logo">DatingLogo</div>
             <div class="navLink">
-                <ul class="link">
-                   <li class="link-item">Matches</li>
-                   <li class="link-item">Lists</li>
-                   <li class="link-item">Messages</li>
+                <ul class="links" *ngIf="loggedIn">
+                    <li class="link-item">
+                        <fa-icon [icon]="faHeartCircleCheck" class="icon"></fa-icon>
+                        <span>Matches</span>
+                    </li>
+                    <li class="link-item">
+                        <fa-icon [icon]="faList" class="icon"></fa-icon>
+                        <span>Lists</span>
+                    </li>
+                    <li class="link-item">
+                        <fa-icon [icon]="faMessage" class="icon"></fa-icon>
+                        <span>Messages</span>
+                    </li>
                 </ul>
             </div>
-        </div>        
+        </div>
         <div class="navButtons">
-            <input class="inputLogins" type="text" placeholder="username">
-            <input class="inputLogins" type="password" placeholder="password">
-            <button class="navButton">Login</button>
-            <button class="navButton">Register</button>            
+            <div class="logout" *ngIf="!loggedIn">
+                <form #loginForm="ngForm" (ngSubmit)="login()">
+                    <input class="inputLogins" type="text" name="username" placeholder="username"
+                        [(ngModel)]="logins.username" required>
+                    <input class="inputLogins" type="password" name="password" placeholder="password"
+                        [(ngModel)]="logins.password" required>
+                    <button [disabled]="!loginForm.valid" class="navButton">Login</button>
+                </form>
+                <button class="navButton">Register</button>
+            </div>
+            <div class="wellComeUser" *ngIf="loggedIn">
+                <div class="User">
+                    <a href="">WelcomUser</a>
+                    <fa-icon [icon]="faCoffee" class="icon"></fa-icon>                    
+                </div>
+                <div class="loginButtons">
+                    <div class="settings">
+                        <a href="">Edit Profile</a>
+                        <fa-icon [icon]="faGear" class="icon"></fa-icon>                    
+                    </div>  
+                    <div class="logout">
+                        <a href="" (click)="logout()">Logout</a>
+                        <fa-icon [icon]="faRightFromBracket" class="icon"></fa-icon>                    
+                    </div>
+                </div>                              
+            </div>
         </div>
     </div>
 </div>

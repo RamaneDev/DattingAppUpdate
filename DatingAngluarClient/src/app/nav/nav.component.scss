@@ -20,14 +20,23 @@
     display: flex;
 }
 
-.link{
+.links{
     display: flex;
     list-style-type: none;
-    gap: 15px;
+    gap: 40px;
 }
 
 .link-item{
+    display: flex;
     cursor: pointer;
+    position: relative;
+    
+    .icon {
+        position: absolute;
+        top:-5px;
+        right:-15px;
+        font-size: 12px;
+    }
 }
 
 .logo{
@@ -43,6 +52,10 @@
     border-radius: 5px;
 }
 
+.logout{
+    display: flex;
+}
+
 .inputLogins {
   margin : 0 5px 0 5px;
   border: none;
@@ -53,6 +66,58 @@
     outline: none;
   }
 }
+
+.wellComeUser {
+    display: flex;
+    gap:50px;
+    & a {
+        color: white;
+        text-decoration: none;
+    }
+    
+    .User{
+        display: flex;
+        justify-items: stretch;
+        position: relative;
+        
+        .icon {
+            position: absolute;
+            top:-5px;
+            right:-15px;
+            font-size: 12px;
+        }
+    }
+
+    .loginButtons{
+        display: flex;
+        gap: 50px;
+
+        .settings{
+            position: relative;
+        
+            .icon {
+                position: absolute;
+                top:-5px;
+                right:-15px;
+                font-size: 12px;
+            }
+        }
+
+        .logout {
+            position: relative;
+        
+            .icon {
+                position: absolute;
+                top:-5px;
+                right:-15px;
+                font-size: 12px;
+            }
+        }
+    }
+    
+}
+
+
 
 
 
