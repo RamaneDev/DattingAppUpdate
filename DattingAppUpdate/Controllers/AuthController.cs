@@ -61,6 +61,7 @@ namespace DattingAppUpdate.Controllers
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
+                    username = user.UserName,
                     expiration = token.ValidTo
                 });
             }
