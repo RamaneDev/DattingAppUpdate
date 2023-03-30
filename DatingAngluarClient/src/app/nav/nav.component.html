@@ -3,7 +3,7 @@
         <div class="navItems">
             <div class="logo">DatingLogo</div>
             <div class="navLink">
-                <ul class="links" *ngIf="loggedIn">
+                <ul class="links" *ngIf="authService.currentUser$ | async">
                     <li class="link-item">
                         <fa-icon [icon]="faHeartCircleCheck" class="icon"></fa-icon>
                         <span>Matches</span>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="navButtons">
-            <div class="logout" *ngIf="!loggedIn">
+            <div class="logout" *ngIf="!(authService.currentUser$ | async)">
                 <form #loginForm="ngForm" (ngSubmit)="login()">
                     <input class="inputLogins" type="text" name="username" placeholder="username"
                         [(ngModel)]="logins.username" required>
@@ -30,7 +30,7 @@
                 </form>
                 <button class="navButton">Register</button>
             </div>
-            <div class="wellComeUser" *ngIf="loggedIn">
+            <div class="wellComeUser" *ngIf="authService.currentUser$ | async">
                 <div class="User">
                     <a href="">WelcomUser</a>
                     <fa-icon [icon]="faCoffee" class="icon"></fa-icon>                    

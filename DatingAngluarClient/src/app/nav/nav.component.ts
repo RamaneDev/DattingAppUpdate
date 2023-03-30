@@ -1,4 +1,3 @@
-import { LocalizedString } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { faCoffee, faGear, faHeartCircleCheck, faList, faMessage, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
@@ -22,28 +21,23 @@ export class NavComponent implements OnInit {
 
   logins: any = {};
   loggedIn = false;
-
-  constructor(private authService: AuthService ) {
-    
+  // we inject authServcie with public modifier in order to access it in html template
+  constructor(public authService: AuthService ) {    
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
   }
 
   login() {
     this.authService.login(this.logins).subscribe({
-      next: () => {
-        this.loggedIn = !! localStorage.getItem('token');
-        console.log('login successful !')
-      },
+      next: () => console.log('login successful !'),    
       error: () => console.log('login failed !'),
       complete: () => console.log('End of response !')
     });
   }
 
   logout() {
-    localStorage.removeItem('token');
-    console.log('logged out')
+    this.authService.logout();    
   }
 
 }
