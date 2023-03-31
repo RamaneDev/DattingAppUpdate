@@ -29,6 +29,10 @@ export class AuthService {
     this.currentUserSource.next(user);
   }
 
+  register(model: any) {
+    return this.http.post(this.baseUrl + 'register', model);
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
