@@ -1,0 +1,16 @@
+<div class="Container">
+    <div class="registerContainer">
+        <h1>Sign up</h1>
+        <hr />
+        <form #registerForm="ngForm" (ngSubmit)="register()">
+            <input type="text" name="username" placeholder="username"
+            [(ngModel)]="registers.username" required>
+            <input type="password"name="password" placeholder="password"
+            [(ngModel)]="registers.password" required>
+            <div class="buttons">
+                <button [disabled]="!registerForm.valid" class="register">Register</button>
+                <button class="cancel" (click)="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
