@@ -1,0 +1,14 @@
+<div class="Container"*ngIf="!modeRegister">
+    <div class="innerContainer">
+        <h1>Find your Match</h1>
+        <h3>Come on in to view your matches... all you need to do is sign up!</h3>
+        <div class="buttons">
+            <button (click)="ToggleRegister()">Register</button>
+            <button>Learn more</button>
+        </div>
+    </div>
+</div>
+
+<div class="Container"*ngIf="modeRegister">
+   <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+</div>
