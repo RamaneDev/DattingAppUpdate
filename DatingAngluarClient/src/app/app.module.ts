@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -21,6 +23,10 @@ import { RegisterComponent } from './register/register.component';
     BrowserModule,
     HttpClientModule,
     FontAwesomeModule,
+    BrowserAnimationsModule,    
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }),
     FormsModule
   ],
   providers: [],

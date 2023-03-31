@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private toastr: ToastrService ) { }
 
   ngOnInit(): void {
   }
@@ -18,7 +19,10 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.authService.register(this.registers).subscribe({
-      next: resp => console.log(resp),  // TODO : navigate to successful created user page !
+      next: (resp: any) => {
+        this.toastr.success(resp.message, resp.status);
+        this.cancel();
+      },
       error: err => console.log(err)
     });
   }
