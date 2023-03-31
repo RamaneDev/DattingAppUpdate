@@ -27,8 +27,7 @@
                     <input class="inputLogins" type="password" name="password" placeholder="password"
                         [(ngModel)]="logins.password" required>
                     <button [disabled]="!loginForm.valid" class="navButton">Login</button>
-                </form>
-                <button class="navButton">Register</button>
+                </form>               
             </div>
             <div class="wellComeUser" *ngIf="authService.currentUser$ | async">
                 <div class="User">

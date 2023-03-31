@@ -20,7 +20,6 @@ export class NavComponent implements OnInit {
   //
 
   logins: any = {};
-  loggedIn = false;
   // we inject authServcie with public modifier in order to access it in html template
   constructor(public authService: AuthService ) {    
   }
