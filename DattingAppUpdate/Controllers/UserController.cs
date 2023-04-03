@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DattingAppUpdate.Dtos;
 using DattingAppUpdate.Entites;
+using DattingAppUpdate.Errors;
 using DattingAppUpdate.IRepo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,7 @@ using System.Threading.Tasks;
 namespace DattingAppUpdate.Controllers
 {
     //[Authorize]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
@@ -49,7 +48,7 @@ namespace DattingAppUpdate.Controllers
         public async Task<IActionResult> UpdateUser(int id, UserToUpdateDto userForUpdateDto)
         {
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized();
+                return Unauthorized(new ApiErrorResponse(403));
             var userFormRepo = await _repo.GetUser(id);
 
             _mapper.Map(userForUpdateDto, userFormRepo);

@@ -12,12 +12,11 @@ using System.Threading.Tasks;
 using System;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.Dtos;
+using DattingAppUpdate.Errors;
 
 namespace DattingAppUpdate.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+{ 
+    public class AuthController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
@@ -65,7 +64,7 @@ namespace DattingAppUpdate.Controllers
                     expiration = token.ValidTo
                 });
             }
-            return Unauthorized();
+            return Unauthorized(new ApiErrorResponse(401));
         }
 
         [HttpPost]
@@ -74,7 +73,7 @@ namespace DattingAppUpdate.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User already exists!"));          
 
             User user = new()
             {
@@ -84,7 +83,7 @@ namespace DattingAppUpdate.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User creation failed! Please check user details and try again."));
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
@@ -95,7 +94,7 @@ namespace DattingAppUpdate.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User already exists!"));        
 
             User user = new()
             {
@@ -105,7 +104,7 @@ namespace DattingAppUpdate.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User creation failed! Please check user details and try again."));
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Admin));
