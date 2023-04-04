@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faCoffee, faGear, faHeartCircleCheck, faList, faMessage, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 
 
@@ -21,7 +23,7 @@ export class NavComponent implements OnInit {
 
   logins: any = {};
   // we inject authServcie with public modifier in order to access it in html template
-  constructor(public authService: AuthService ) {    
+  constructor(public authService: AuthService, private router: Router, private toastr: ToastrService ) {    
   }
 
   ngOnInit(): void {   
@@ -29,14 +31,15 @@ export class NavComponent implements OnInit {
 
   login() {
     this.authService.login(this.logins).subscribe({
-      next: () => console.log('login successful !'),    
-      error: () => console.log('login failed !'),
+      next: () => this.router.navigateByUrl('/members'),    
+      error: (error) => console.log(error),
       complete: () => console.log('End of response !')
     });
   }
 
   logout() {
-    this.authService.logout();    
+    this.authService.logout();
+    this.router.navigateByUrl('/');    
   }
 
 }
