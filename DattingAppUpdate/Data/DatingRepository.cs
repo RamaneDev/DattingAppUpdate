@@ -37,6 +37,13 @@ namespace DattingAppUpdate.Data
            return usr;
         }
 
+        public async Task<User> GetUserByUsername(string username)
+        {
+            var usr = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.UserName == username);
+
+            return usr;
+        }
+
         public async Task<IReadOnlyList<User>> GetUsers()
         {
             var users = await _context.Users.Include(u => u.Photos).ToListAsync();

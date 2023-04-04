@@ -34,10 +34,20 @@ namespace DattingAppUpdate.Controllers
             return Ok(usersToReturn);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserToReturn>> GetUser(int id)
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<UserToReturn>> GetUser(int id)
+        //{
+        //    var user = await _repo.GetUser(id);
+
+        //    var userToReturn = _mapper.Map<UserToReturn>(user);
+
+        //    return Ok(userToReturn);
+        //}
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<UserToReturn>> GetUserByUsername(string username)
         {
-            var user = await _repo.GetUser(id);
+            var user = await _repo.GetUserByUsername(username);
 
             var userToReturn = _mapper.Map<UserToReturn>(user);
 
