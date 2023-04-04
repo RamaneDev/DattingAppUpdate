@@ -14,8 +14,8 @@ namespace DattingAppUpdate.Entites
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string KnowsAs { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime LastActive { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime LastActive { get; set; } = DateTime.Now;
         public string Introduction { get; set; }
         public string LookingFor { get; set; }
         public string Interests { get; set; }
