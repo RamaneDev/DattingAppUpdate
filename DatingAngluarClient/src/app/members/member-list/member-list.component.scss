@@ -1,0 +1,21 @@
+.mListContainer{
+  display: flex;
+  //height: 80vh;
+  justify-content: center;
+  align-items: center;
+  
+
+    .mCardListContainer{
+        width: 90%;
+        margin: 0;       
+        display: flex;
+        align-content: center;              
+        gap: 10px;
+        flex-wrap: wrap;
+        
+     
+     }
+}
+
+
+
