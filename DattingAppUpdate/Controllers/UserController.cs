@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DattingAppUpdate.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IDatingRepository _repo;
