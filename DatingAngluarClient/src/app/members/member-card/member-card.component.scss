@@ -37,7 +37,8 @@
         transition: all .5s;
         opacity: 0;
 
-        .icon{          
+        .icon{  
+            cursor: pointer;        
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,7 +51,7 @@
             color: white;         
         }     
     }
-    
+
     &:hover {
          overflow: hidden;
         .buttons {
