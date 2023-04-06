@@ -29,10 +29,10 @@
                     <button [disabled]="!loginForm.valid" class="navButton">Login</button>
                 </form>               
             </div>
-            <div class="wellComeUser" *ngIf="authService.currentUser$ | async">
+            <div class="wellComeUser" *ngIf="authService.currentUser$ | async as user">
                 <div class="User">
-                    <a href="">WelcomUser</a>
-                    <fa-icon [icon]="faCoffee" class="icon"></fa-icon>                    
+                    <a href="">Welcome {{user.username}}</a>
+                    <fa-icon [icon]="faUser" class="icon"></fa-icon>                    
                 </div>
                 <div class="loginButtons">
                     <div class="settings">

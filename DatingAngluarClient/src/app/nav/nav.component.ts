@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faCoffee, faGear, faHeartCircleCheck, faList, faMessage, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faGear, faHeartCircleCheck, faList, faMessage, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 
@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service';
 export class NavComponent implements OnInit { 
   
   // icons
-  faCoffee = faCoffee;
+  faUser = faUser;
   faHeartCircleCheck =faHeartCircleCheck;
   faList = faList;
   faMessage = faMessage;
