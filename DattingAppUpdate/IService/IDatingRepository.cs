@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DattingAppUpdate.IRepo
+namespace DattingAppUpdate.IService
 {
     public interface IDatingRepository
     {

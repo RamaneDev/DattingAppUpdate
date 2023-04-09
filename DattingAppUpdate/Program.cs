@@ -2,7 +2,7 @@ using DattingAppUpdate.Data;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.Errors;
 using DattingAppUpdate.Helpers;
-using DattingAppUpdate.IRepo;
+using DattingAppUpdate.IService;
 using DattingAppUpdate.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
