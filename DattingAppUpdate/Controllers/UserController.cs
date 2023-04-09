@@ -2,7 +2,7 @@
 using DattingAppUpdate.Dtos;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.Errors;
-using DattingAppUpdate.IRepo;
+using DattingAppUpdate.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

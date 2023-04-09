@@ -1,10 +1,11 @@
-﻿using DattingAppUpdate.Entites;
-using DattingAppUpdate.IRepo;
+﻿using DattingAppUpdate.Data;
+using DattingAppUpdate.Entites;
+using DattingAppUpdate.IService;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DattingAppUpdate.Data
+namespace DattingAppUpdate.Service
 {
     public class DatingRepository : IDatingRepository
     {
@@ -27,14 +28,14 @@ namespace DattingAppUpdate.Data
 
         public async Task<Photo> GetPhoto(int id)
         {
-            return await _context.Photos.FirstOrDefaultAsync(ph =>  ph.Id == id);
+            return await _context.Photos.FirstOrDefaultAsync(ph => ph.Id == id);
         }
 
         public async Task<User> GetUser(int id)
         {
-           var usr = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
+            var usr = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
 
-           return usr;
+            return usr;
         }
 
         public async Task<User> GetUserByUsername(string username)
