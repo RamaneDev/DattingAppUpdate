@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -15,7 +16,8 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
     FontAwesomeModule,
     BrowserAnimationsModule, 
     TabsModule.forRoot(),
-    NgxGalleryModule,  
+    NgxGalleryModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade-rotating' }),    
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     })
@@ -24,7 +26,8 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
     FontAwesomeModule,
     BrowserAnimationsModule,
     ToastrModule,
-    NgxGalleryModule,  
+    NgxGalleryModule,
+    NgxSpinnerModule,  
     TabsModule 
   ]
 })
