@@ -54,19 +54,19 @@ namespace DattingAppUpdate.Controllers
             return Ok(userToReturn);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserToUpdateDto userForUpdateDto)
+        [HttpPut("{username}")]
+        public async Task<IActionResult> UpdateUser(string username, UserToUpdateDto userForUpdateDto)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (username != User.FindFirst(ClaimTypes.Name).Value)
                 return Unauthorized(new ApiErrorResponse(403));
-            var userFormRepo = await _repo.GetUser(id);
+            var userFormRepo = await _repo.GetUserByUsername(username);
 
             _mapper.Map(userForUpdateDto, userFormRepo);
 
             if (await _repo.SaveAll())
                 return NoContent();
 
-            throw new Exception($"Updating user {id} failed on save");
+            throw new Exception($"Updating user ${username}$ failed on save");
         }
 
     }
