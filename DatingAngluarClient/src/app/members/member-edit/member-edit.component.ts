@@ -39,7 +39,13 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateMember() {
-    throw new Error('Method not implemented.');
+    this.memberService.updateMember(this.user.username, this.member).subscribe({
+      next: ()=> {
+        this.toastr.success('Profile updated successfully');
+        this.editForm.reset(this.member);
+      },
+      error: err => console.log(err)
+    });
   }
 
 }
