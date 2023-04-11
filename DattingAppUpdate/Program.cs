@@ -71,6 +71,8 @@ namespace DattingAppUpdate
             // configure cloudinaryApi
             builder.Services.Configure<CloudinaryOptions>(builder.Configuration.GetSection("CloudinaryOptions"));
 
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
