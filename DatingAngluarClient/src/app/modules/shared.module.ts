@@ -6,6 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 
@@ -14,7 +15,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   imports:[
     CommonModule,
     FontAwesomeModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
+    FileUploadModule, 
     TabsModule.forRoot(),
     NgxGalleryModule,
     NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade-rotating' }),    
@@ -27,7 +29,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     BrowserAnimationsModule,
     ToastrModule,
     NgxGalleryModule,
-    NgxSpinnerModule,  
+    NgxSpinnerModule,
+    FileUploadModule,  
     TabsModule 
   ]
 })
