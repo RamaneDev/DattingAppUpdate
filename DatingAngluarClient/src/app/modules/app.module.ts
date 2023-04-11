@@ -20,6 +20,7 @@ import { MemberCardComponent } from '../members/member-card/member-card.componen
 import { JwtInterceptor } from '../interceptors/jwt.interceptor';
 import { LoadingInterceptor } from '../interceptors/loading.interceptor';
 import { MemberEditComponent } from '../members/member-edit/member-edit.component';
+import { PhotoEditorComponent } from '../members/photo-editor/photo-editor.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MemberEditComponent } from '../members/member-edit/member-edit.componen
     ServerErrorComponent,
     TestErrorsComponent,
     MemberCardComponent,
-    MemberEditComponent
+    MemberEditComponent,
+    PhotoEditorComponent
   ],
   imports: [
     BrowserModule,
