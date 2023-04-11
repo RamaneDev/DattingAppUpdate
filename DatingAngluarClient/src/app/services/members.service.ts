@@ -11,18 +11,13 @@ import { Members } from '../models/members';
 export class MembersService {
   baseUrl = environment.apiUrl;
 
-  members: Members[] = [];
 
   constructor(private http: HttpClient) { }
 
   getMembers() {
-    if(this.members.length > 0) return of(this.members);
-    return this.http.get<Members[]>(this.baseUrl + 'users').pipe(
-      map(members => {
-        this.members = members;
-        return members;
-      })
-    )
+
+    return this.http.get<Members[]>(this.baseUrl + 'users')
+  
   }
 
   getMember(username: string) {
@@ -31,5 +26,13 @@ export class MembersService {
 
   updateMember(username: string, member: Member) {
     return this.http.put<Member>(this.baseUrl + 'users/' + username, member);
+  }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 }

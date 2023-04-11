@@ -32,8 +32,7 @@ export class NavComponent implements OnInit {
   login() {
     this.authService.login(this.logins).subscribe({
       next: () => this.router.navigateByUrl('/members'),    
-      error: (error) => console.log(error),
-      complete: () => console.log('End of response !')
+      error: (error) => console.log(error)      
     });
   }
 
