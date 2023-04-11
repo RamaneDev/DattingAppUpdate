@@ -13,6 +13,8 @@ using System;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.Dtos;
 using DattingAppUpdate.Errors;
+using DattingAppUpdate.Extensions;
+using System.Linq;
 
 namespace DattingAppUpdate.Controllers
 { 
@@ -36,8 +38,7 @@ namespace DattingAppUpdate.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserToLoginDto model)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
-
+            var user = await _userManager.GetUserByNameWithPhotos(model.Username);
           
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
@@ -61,7 +62,8 @@ namespace DattingAppUpdate.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     username = user.UserName,
-                    expiration = token.ValidTo
+                    photoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url
+                   
                 });
             }
             return Unauthorized(new ApiErrorResponse(401));
