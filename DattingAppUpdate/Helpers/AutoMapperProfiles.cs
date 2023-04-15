@@ -17,7 +17,7 @@ namespace DattingAppUpdate.Helpers
             .ForMember(dest => dest.Age, opt =>
                  opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
 
-            CreateMap<User, UserToReturn>()
+            CreateMap<User, UserToReturnDto>()
              .ForMember(dest => dest.PhotoUrl, opt =>
                  opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url))
              .ForMember(dest => dest.Age, opt =>
@@ -30,6 +30,10 @@ namespace DattingAppUpdate.Helpers
             CreateMap<PhotoForCreationDto, Photo>();
             
             CreateMap<Photo, PhotoToReturnDto>();
+
+            CreateMap<UserToRegisterDto, User>()
+                .ForMember(dest => dest.Email, opt =>
+                            opt.MapFrom(src => src.Username + "@gmail.com"));               
         }
 
     }

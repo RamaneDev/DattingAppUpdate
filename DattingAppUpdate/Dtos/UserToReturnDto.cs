@@ -3,7 +3,7 @@ using System;
 
 namespace DattingAppUpdate.Dtos
 {
-    public class UserToReturn
+    public class UserToReturnDto
     {
         public int Id { get; set; }
         public string Username { get; set; }

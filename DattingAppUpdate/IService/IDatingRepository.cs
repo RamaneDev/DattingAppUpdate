@@ -1,4 +1,5 @@
-﻿using DattingAppUpdate.Entites;
+﻿using DattingAppUpdate.Dtos;
+using DattingAppUpdate.Entites;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,10 +9,10 @@ namespace DattingAppUpdate.IService
     {
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
-        Task<bool> SaveAll();
-        Task<IReadOnlyList<User>> GetUsers();
-        Task<User> GetUser(int id);
-        Task<User> GetUserByUsername(string username);
-        Task<Photo> GetPhoto(int id);
+        Task<bool> SaveAllAsync();
+        Task<IReadOnlyList<LightUserToReturn>> GetUsersAsync();
+        Task<User> GetUserToUpdateAsync(string username);
+        Task<UserToReturnDto> GetUserByUsernameAsync(string username);
+        Task<Photo> GetPhotoAsync(int id);
     }
 }

@@ -1,8 +1,12 @@
-﻿using DattingAppUpdate.Data;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using DattingAppUpdate.Data;
+using DattingAppUpdate.Dtos;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.IService;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DattingAppUpdate.Service
@@ -10,10 +14,12 @@ namespace DattingAppUpdate.Service
     public class DatingRepository : IDatingRepository
     {
         private readonly UserDbCxt _context;
+        private readonly IMapper _mapper;
 
-        public DatingRepository(UserDbCxt context)
+        public DatingRepository(UserDbCxt context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void Add<T>(T entity) where T : class
@@ -26,33 +32,32 @@ namespace DattingAppUpdate.Service
             _context.Remove(entity);
         }
 
-        public async Task<Photo> GetPhoto(int id)
+        public async Task<Photo> GetPhotoAsync(int id)
         {
             return await _context.Photos.FirstOrDefaultAsync(ph => ph.Id == id);
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetUserToUpdateAsync(string username)
         {
-            var usr = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
-
-            return usr;
+            return await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.UserName == username);          
         }
 
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<UserToReturnDto> GetUserByUsernameAsync(string username)
         {
-            var usr = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.UserName == username);
-
-            return usr;
+            return await _context.Users
+                                 .Where(x => x.UserName == username)
+                                 .ProjectTo<UserToReturnDto>(_mapper.ConfigurationProvider)
+                                 .SingleOrDefaultAsync();       
         }
 
-        public async Task<IReadOnlyList<User>> GetUsers()
+        public async Task<IReadOnlyList<LightUserToReturn>> GetUsersAsync()
         {
-            var users = await _context.Users.Include(u => u.Photos).ToListAsync();
-
-            return users;
+            return  await _context.Users
+                                      .ProjectTo<LightUserToReturn>(_mapper.ConfigurationProvider)
+                                      .ToListAsync();         
         }
 
-        public async Task<bool> SaveAll()
+        public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }

@@ -5,7 +5,7 @@ namespace DattingAppUpdate.Dtos
 {
     public class UserToRegisterDto
     {
-        [Required]
+        [Required]     
         public string Username { get; set; }
         
         [Required]
