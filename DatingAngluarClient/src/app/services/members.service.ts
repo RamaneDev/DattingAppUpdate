@@ -25,7 +25,8 @@ export class MembersService {
   }
 
   updateMember(username: string, member: Member) {
-    return this.http.put<Member>(this.baseUrl + 'users/' + username, member);
+    return this.http.put<Member>(this.baseUrl + 'users/'
+    , member);
   }
 
   setMainPhoto(photoId: number) {

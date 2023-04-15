@@ -1,5 +1,5 @@
 <div class="mCardContainer">
-    <img src="{{this.member.photoUrl}}" alt="">
+    <img src="{{this.member.photoUrl || './assets/user.png'}}" alt="">
     <div class="user">
         <span>{{this.member.knowsAs}}</span>
         <fa-icon [icon]="faUser" class="icon"></fa-icon>
