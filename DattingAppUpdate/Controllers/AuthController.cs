@@ -54,8 +54,9 @@ namespace DattingAppUpdate.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     username = user.UserName,
-                    photoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url
-                   
+                    photoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
+                    knowsAs = user.KnowsAs,
+                    gender = user.Gender                   
                 });
             }
             return Unauthorized(new ApiErrorResponse(401));
@@ -82,7 +83,9 @@ namespace DattingAppUpdate.Controllers
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-                username = user.UserName             
+                username = user.UserName,
+                knowsAs = user.KnowsAs,
+                gender = user.Gender
 
             }); ;           
         }
