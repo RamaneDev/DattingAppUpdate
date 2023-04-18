@@ -31,7 +31,7 @@
             </div>
             <div class="wellComeUser" *ngIf="authService.currentUser$ | async as user">
                 <div class="User">
-                    <a href="">Welcome {{user.username}}</a>
+                    <a href="">Welcome {{user.knowsAs | titlecase}}</a>
                     <fa-icon [icon]="faUser" class="icon"></fa-icon>                    
                 </div>
                 <div class="loginButtons">
