@@ -3,6 +3,7 @@ using DattingAppUpdate.Dtos;
 using DattingAppUpdate.Entites;
 using DattingAppUpdate.Errors;
 using DattingAppUpdate.Extensions;
+using DattingAppUpdate.Helpers;
 using DattingAppUpdate.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -30,9 +31,17 @@ namespace DattingAppUpdate.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<LightUserToReturn>>> GetUsers()
+        public async Task<ActionResult<PagedList<LightUserToReturn>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await _repo.GetUsersAsync();           
+            var user = await _repo.GetUserToUpdateAsync(User.GetUsername());
+            userParams.CurrentUsername = user.UserName;
+
+            if (string.IsNullOrEmpty(userParams.Gender))
+                userParams.Gender = user.Gender == "male" ? "female" : "male";
+
+            var users = await _repo.GetUsersAsync(userParams);
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(users);
         }
