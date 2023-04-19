@@ -17,6 +17,21 @@ namespace DattingAppUpdate.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
 
+            modelBuilder.Entity("DattingAppUpdate.Entites.Likes", b =>
+                {
+                    b.Property<int>("LikerUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LikedUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("LikerUserId", "LikedUserId");
+
+                    b.HasIndex("LikedUserId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("DattingAppUpdate.Entites.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -269,6 +284,25 @@ namespace DattingAppUpdate.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DattingAppUpdate.Entites.Likes", b =>
+                {
+                    b.HasOne("DattingAppUpdate.Entites.User", "LikedUser")
+                        .WithMany("Like")
+                        .HasForeignKey("LikedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DattingAppUpdate.Entites.User", "LikerUser")
+                        .WithMany("Liked")
+                        .HasForeignKey("LikerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LikedUser");
+
+                    b.Navigation("LikerUser");
+                });
+
             modelBuilder.Entity("DattingAppUpdate.Entites.Photo", b =>
                 {
                     b.HasOne("DattingAppUpdate.Entites.User", "User")
@@ -333,6 +367,10 @@ namespace DattingAppUpdate.Data.Migrations
 
             modelBuilder.Entity("DattingAppUpdate.Entites.User", b =>
                 {
+                    b.Navigation("Like");
+
+                    b.Navigation("Liked");
+
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618

@@ -8,10 +8,7 @@ using DattingAppUpdate.Entites;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.IO;
-using DattingAppUpdate.Dtos;
-using System.Globalization;
 using DattingAppUpdate.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace DattingAppUpdate.Data
@@ -46,6 +43,7 @@ namespace DattingAppUpdate.Data
                                 Email = userToSeed.Username + "@gmail.com",
                                 SecurityStamp = Guid.NewGuid().ToString(),
                                 UserName = userToSeed.Username,
+                                DateOfBirth = userToSeed.DateOfBirth,
                                 Gender = userToSeed.Gender,
                                 KnowsAs = userToSeed.KnowsAs,
                                 Created = userToSeed.Created,

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DattingAppUpdate.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class likeEntityAdd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -169,6 +169,30 @@ namespace DattingAppUpdate.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    LikerUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => new { x.LikerUserId, x.LikedUserId });
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_LikedUserId",
+                        column: x => x.LikedUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_LikerUserId",
+                        column: x => x.LikerUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Photos",
                 columns: table => new
                 {
@@ -230,6 +254,11 @@ namespace DattingAppUpdate.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_LikedUserId",
+                table: "Likes",
+                column: "LikedUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_UserId",
                 table: "Photos",
                 column: "UserId");
@@ -252,6 +281,9 @@ namespace DattingAppUpdate.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "Photos");
