@@ -44,7 +44,7 @@ namespace DattingAppUpdate.Service
             var likeDtos = users.Select(user => new LikeDto
             {
                 Username = user.UserName,
-                KnownAs = user.KnowsAs,
+                KnowsAs = user.KnowsAs,
                 Age = user.DateOfBirth.CalculateAge(),
                 PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url,
                 City = user.City,
