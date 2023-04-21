@@ -24,5 +24,7 @@ namespace DattingAppUpdate.Entites
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Likes> Liked { get; set; }
         public ICollection<Likes> Like { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
     }
 }

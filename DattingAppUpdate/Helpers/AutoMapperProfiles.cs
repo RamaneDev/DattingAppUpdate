@@ -33,7 +33,13 @@ namespace DattingAppUpdate.Helpers
 
             CreateMap<UserToRegisterDto, User>()
                 .ForMember(dest => dest.Email, opt =>
-                            opt.MapFrom(src => src.Username + "@gmail.com"));               
+                            opt.MapFrom(src => src.Username + "@gmail.com"));
+
+            CreateMap<Message, MessageDto>()
+               .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src =>
+                   src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
+               .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src =>
+                   src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
         }
 
     }

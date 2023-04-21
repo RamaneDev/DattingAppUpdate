@@ -11,6 +11,8 @@ namespace DattingAppUpdate.Data
 
         public DbSet<Likes> Likes { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public UserDbCxt(DbContextOptions<UserDbCxt> options) : base(options)
         {
             
@@ -47,6 +49,24 @@ namespace DattingAppUpdate.Data
                       .WithMany(l => l.Like)
                       .HasForeignKey(u => u.LikedUserId)
                       .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Message>(entity =>
+            {
+                entity.HasOne(s => s.Sender)
+                      .WithMany(m => m.MessagesReceived)
+                      .HasForeignKey(s => s.SenderId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+            });
+
+            builder.Entity<Message>(entity =>
+            {
+                entity.HasOne(s => s.Recipient)
+                      .WithMany(m => m.MessagesSent)
+                      .HasForeignKey(s => s.RecipientId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
             });
         }
     }
