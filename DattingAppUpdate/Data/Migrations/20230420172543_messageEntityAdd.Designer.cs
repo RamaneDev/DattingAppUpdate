@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DattingAppUpdate.Data.Migrations
 {
     [DbContext(typeof(UserDbCxt))]
-    [Migration("20230419143937_likeEntityAdd")]
-    partial class likeEntityAdd
+    [Migration("20230420172543_messageEntityAdd")]
+    partial class messageEntityAdd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,48 @@ namespace DattingAppUpdate.Data.Migrations
                     b.HasIndex("LikedUserId");
 
                     b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("DattingAppUpdate.Entites.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("MessageSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RecipientUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("DattingAppUpdate.Entites.Photo", b =>
@@ -306,6 +348,25 @@ namespace DattingAppUpdate.Data.Migrations
                     b.Navigation("LikerUser");
                 });
 
+            modelBuilder.Entity("DattingAppUpdate.Entites.Message", b =>
+                {
+                    b.HasOne("DattingAppUpdate.Entites.User", "Recipient")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DattingAppUpdate.Entites.User", "Sender")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("DattingAppUpdate.Entites.Photo", b =>
                 {
                     b.HasOne("DattingAppUpdate.Entites.User", "User")
@@ -373,6 +434,10 @@ namespace DattingAppUpdate.Data.Migrations
                     b.Navigation("Like");
 
                     b.Navigation("Liked");
+
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSent");
 
                     b.Navigation("Photos");
                 });
