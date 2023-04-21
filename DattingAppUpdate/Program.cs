@@ -34,7 +34,7 @@ namespace DattingAppUpdate
                             .AddEntityFrameworkStores<UserDbCxt>()
                             .AddDefaultTokenProviders();
 
-            
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
             builder.Services.AddScoped<IDatingRepository, DatingRepository>();
             builder.Services.AddScoped<ILikesRepository, LikesRepository>();
             builder.Services.AddAutoMapper(typeof(DatingRepository).Assembly);
