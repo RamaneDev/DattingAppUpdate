@@ -21,15 +21,8 @@ export class MemberMessagesComponent implements OnInit {
    
   }
 
-  ngOnInit(): void {
-    this.loadThreadMs();
-  }
-
-  loadThreadMs() {
-    this.messageService.getMessageThread(this.username!).subscribe({
-      next: msg => this.messages = msg
-    })
-  }
+  ngOnInit(): void {    
+  } 
 
   sendMessage() {
     if(this.username && this.messageContent) {

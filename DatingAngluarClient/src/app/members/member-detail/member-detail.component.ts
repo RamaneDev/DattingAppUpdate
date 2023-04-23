@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Member } from 'src/app/models/member';
+import { Message } from 'src/app/models/message';
 import { MembersService } from 'src/app/services/members.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -14,8 +16,11 @@ export class MemberDetailComponent implements OnInit {
   member!: Member;
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
+
+  activeTab!: TabDirective;
+  messages: Message[] = [];  
   
-  constructor(private memberService: MembersService, private route: ActivatedRoute) {
+  constructor(private memberService: MembersService, private route: ActivatedRoute, private messageService: MessageService ) {
   
    }
 
@@ -59,8 +64,17 @@ export class MemberDetailComponent implements OnInit {
      
         }
       });
-    } 
-    
+    }   
+  }
+
+  onTabActivated(data: TabDirective) {    
+      this.loadThreadMs();    
+  }
+
+  loadThreadMs() {
+    this.messageService.getMessageThread(this.member.username).subscribe({
+      next: msg => this.messages = msg
+    })
   }
 
 
