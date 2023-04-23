@@ -79,5 +79,27 @@ namespace DattingAppUpdate.Controllers
 
             return Ok(await _msRepo.GetMessageThread(currentUsername, username));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id)
+        {
+            var username = User.GetUsername();
+
+            var message = await _msRepo.GetMessage(id);
+
+            if (message.Sender.UserName != username && message.Recipient.UserName != username)
+                return Unauthorized();
+
+            if (message.Sender.UserName == username) message.SenderDeleted = true;
+
+            if (message.Recipient.UserName == username) message.RecipientDeleted = true;
+
+            if (message.SenderDeleted && message.RecipientDeleted)
+                _msRepo.DeleteMessage(message);
+
+            if (await _msRepo.SaveAllAsync()) return Ok();
+
+            return BadRequest("Problem deleting the message");
+        }
     }
 }
