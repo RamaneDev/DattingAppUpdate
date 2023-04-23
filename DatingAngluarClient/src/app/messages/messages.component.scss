@@ -1,0 +1,18 @@
+.img-circle {
+    max-height: 50px;
+}
+
+.red {
+    color:#bb2d3b;
+    &:hover {
+        color: white;
+        background-color: #bb2d3b;
+    }
+}
+
+.C {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
