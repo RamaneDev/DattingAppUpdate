@@ -24,11 +24,12 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    this.loading = true;
     this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe({
       next: resp => {
         this.messages = resp.result;
-        this.pagination = resp.pagination;
-        console.log(resp);
+        this.pagination = resp.pagination;      
+        this.loading = false;
       }
     });
   }
