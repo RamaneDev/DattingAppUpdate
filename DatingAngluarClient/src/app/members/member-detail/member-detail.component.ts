@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/services/members.service';
 
@@ -9,15 +10,19 @@ import { MembersService } from 'src/app/services/members.service';
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.scss']
 })
-export class MemberDetailComponent implements OnInit {
+export class MemberDetailComponent implements OnInit { 
   member!: Member;
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
   
-  constructor(private memberService: MembersService, private route: ActivatedRoute) { }
+  constructor(private memberService: MembersService, private route: ActivatedRoute) {
+  
+   }
+
+
 
   ngOnInit(): void {
-    this.getMember();
+    this.getMember();  
 
     this.galleryOptions = [
       {
@@ -30,6 +35,7 @@ export class MemberDetailComponent implements OnInit {
       }
     ]
   }
+
 
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -50,11 +56,12 @@ export class MemberDetailComponent implements OnInit {
         next: user => {
           this.member = user;
           this.galleryImages = this.getImages();
+     
         }
-
       });
     } 
     
   }
+
 
 }
