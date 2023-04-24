@@ -8,6 +8,6 @@
     <div class="buttons">
         <fa-icon [icon]="faUser" class="icon" routerLink='/members/{{member.username}}'></fa-icon>
         <fa-icon (click)="Like(this.member)" [icon]="faHeart" class="icon"></fa-icon>
-        <fa-icon [icon]="faEnvelope" class="icon"></fa-icon>
+        <fa-icon [icon]="faEnvelope" class="icon" routerLink='/members/{{member.username}}' [queryParams]='{tab: 3}'></fa-icon>
     </div>   
 </div>

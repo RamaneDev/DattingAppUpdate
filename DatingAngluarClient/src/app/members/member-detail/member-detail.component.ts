@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
@@ -34,7 +34,13 @@ export class MemberDetailComponent implements OnInit {
         this.member = data['member'];
         this.galleryImages = this.getImages();
       } 
-    }); 
+    });
+    
+    this.route.queryParams.subscribe({
+      next : (params : any) => {
+        params.tab ? this.selectTab(params.tab) : this.selectTab(0);
+      }
+    });
 
     this.galleryOptions = [
       {
@@ -45,11 +51,7 @@ export class MemberDetailComponent implements OnInit {
         imageAnimation: NgxGalleryAnimation.Slide,
         preview: false
       }
-    ]
-
-    
-
-    this.selectTab(3);
+    ]    
   }
 
 
