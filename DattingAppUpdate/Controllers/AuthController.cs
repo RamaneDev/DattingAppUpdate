@@ -48,15 +48,15 @@ namespace DattingAppUpdate.Controllers
             {
                 var userRoles = await _userManager.GetRolesAsync(user); 
 
-                var token = GetToken(userRoles, user);
+                var _token = GetToken(userRoles, user);
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    token = _token,
                     username = user.UserName,
-                    photoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
-                    knowsAs = user.KnowsAs,
-                    gender = user.Gender                   
+                    photoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                    knowsAs = user?.KnowsAs,
+                    gender = user?.Gender                   
                 });
             }
             return Unauthorized(new ApiErrorResponse(401));
@@ -76,18 +76,20 @@ namespace DattingAppUpdate.Controllers
             if (!result.Succeeded)
                 return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User creation failed! Please check user details and try again."));
 
+            await _userManager.AddToRoleAsync(user, UserRoles.Member);
+
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var token = GetToken(userRoles, user);
+            var _token = GetToken(userRoles, user);
 
             return Ok(new
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
+                token = _token,
                 username = user.UserName,
                 knowsAs = user.KnowsAs,
                 gender = user.Gender
 
-            }); ;           
+            });         
         }
 
         [HttpPost]
@@ -96,42 +98,29 @@ namespace DattingAppUpdate.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User already exists!"));        
+                return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User already exists!"));          
 
-            User user = new()
-            {
-                Email = model.Username + "@gmail.com",
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
-            };
+            var user = _mapper.Map<User>(model);
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return BadRequest(new ApiErrorResponse(StatusCodes.Status500InternalServerError, "User creation failed! Please check user details and try again."));
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Admin));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.User));
+            await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Admin));
+            await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Moderator));
 
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
-            }
+            await _userManager.AddToRolesAsync(user, new[] { UserRoles.Admin, UserRoles.Moderator});
+
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
-        private JwtSecurityToken GetToken(IList<string> userRoles, User user)
+        private string GetToken(IList<string> userRoles, User user)
         {
 
             var authClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)               
             };
 
             foreach (var userRole in userRoles)
@@ -139,17 +128,22 @@ namespace DattingAppUpdate.Controllers
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var _authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddMinutes(5),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+            var creds = new SigningCredentials(_authSigningKey, SecurityAlgorithms.HmacSha512Signature);
 
-            return token;
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(authClaims),
+                Expires = DateTime.Now.AddDays(7),
+                SigningCredentials = creds
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
    
     }

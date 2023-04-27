@@ -23,12 +23,19 @@ namespace DattingAppUpdate.Data
 
                 var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+
                 await context.Database.EnsureCreatedAsync();
 
                 try
                 {
                     if (!context.Users.Any())
-                    {
+                    {                      
+    
+                        await roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Admin));
+                        await roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Moderator));
+                        await roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Member));
+
                         var usersDataTxt = File.ReadAllText("Data/SeedData/UserSeedData.json");
                         var options = new JsonSerializerOptions
                         {
@@ -58,15 +65,25 @@ namespace DattingAppUpdate.Data
                             var result = await userManager.CreateAsync(user, userToSeed.Password);
 
                             if (!result.Succeeded)
-                                throw new Exception("failed to create user !");
+                                throw new Exception("failed to create user !");                          
 
                             var createdUser = await context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
 
                             createdUser.Photos = userToSeed.Photos;
 
+                            await userManager.AddToRoleAsync(createdUser, UserRoles.Member);
+
                             //context.Users.Update(createdUser);  
-      
+
                         }
+
+                        var admin = new User
+                        {
+                            UserName = "admin"
+                        };
+
+                        await userManager.CreateAsync(admin, "Password@123");
+                        await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
 
                         await context.SaveChangesAsync();
                     }                   
